@@ -1,0 +1,123 @@
+[gd_scene load_steps=12 format=3]
+
+[ext_resource type="Script" path="res://scripts/player.gd" id="1_player"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_1"]
+radius = 0.38
+height = 1.75
+
+[sub_resource type="StandardMaterial3D" id="Mat_Torso"]
+albedo_color = Color(0.85, 0.22, 0.18, 1.0)
+roughness = 0.35
+metallic = 0.2
+
+[sub_resource type="StandardMaterial3D" id="Mat_Visor"]
+albedo_color = Color(0.1, 0.95, 0.98, 1.0)
+emission_enabled = true
+emission = Color(0.1, 0.95, 0.98, 1.0)
+emission_energy_multiplier = 2.5
+
+[sub_resource type="StandardMaterial3D" id="Mat_Laser"]
+albedo_color = Color(1.0, 0.1, 0.1, 1.0)
+emission_enabled = true
+emission = Color(1.0, 0.1, 0.1, 1.0)
+emission_energy_multiplier = 4.0
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_Laser"]
+material = SubResource("Mat_Laser")
+top_radius = 0.02
+bottom_radius = 0.02
+height = 20.0
+
+[sub_resource type="StandardMaterial3D" id="Mat_ShieldFrame"]
+albedo_color = Color(0.02, 0.72, 0.95, 1.0)
+roughness = 0.1
+metallic = 0.9
+emission_enabled = true
+emission = Color(0.02, 0.4, 0.65, 1.0)
+
+[sub_resource type="StandardMaterial3D" id="Mat_ShieldGlass"]
+albedo_color = Color(0.92, 0.95, 0.98, 1.0)
+roughness = 0.02
+metallic = 0.98
+
+[sub_resource type="BoxMesh" id="BoxMesh_ShieldFrame"]
+material = SubResource("Mat_ShieldFrame")
+size = Vector3(0.52, 0.62, 0.03)
+
+[sub_resource type="BoxMesh" id="BoxMesh_ShieldGlass"]
+material = SubResource("Mat_ShieldGlass")
+size = Vector3(0.46, 0.56, 0.02)
+
+[node name="Player" type="CharacterBody3D" groups=["player"]]
+collision_layer = 2
+collision_mask = 5
+script = ExtResource("1_player")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.88, 0)
+shape = SubResource("CapsuleShape3D_1")
+
+[node name="ModelRoot" type="Node3D" parent="."]
+
+[node name="Torso" type="CSGBox3D" parent="ModelRoot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.85, 0)
+size = Vector3(0.55, 0.75, 0.35)
+material = SubResource("Mat_Torso")
+
+[node name="Head" type="CSGSphere3D" parent="ModelRoot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.45, 0)
+radius = 0.24
+material = SubResource("Mat_Torso")
+
+[node name="Visor" type="CSGBox3D" parent="ModelRoot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.45, -0.18)
+size = Vector3(0.32, 0.12, 0.15)
+material = SubResource("Mat_Visor")
+
+[node name="Backpack" type="CSGBox3D" parent="ModelRoot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.95, 0.22)
+size = Vector3(0.35, 0.45, 0.18)
+material = SubResource("Mat_Visor")
+
+[node name="CameraPivot" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0)
+
+[node name="SpringArm3D" type="SpringArm3D" parent="CameraPivot"]
+spring_length = 3.5
+margin = 0.2
+
+[node name="Camera3D" type="Camera3D" parent="CameraPivot/SpringArm3D"]
+current = true
+
+[node name="FirstPersonCamera" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.45, -0.25)
+
+[node name="Flashlight" type="SpotLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, 0.95, -0.3)
+visible = false
+light_color = Color(1, 0.92, 0.75, 1)
+light_energy = 3.5
+spot_range = 18.0
+spot_angle = 32.0
+
+[node name="LaserRayCast" type="RayCast3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, 0.95, -0.2)
+target_position = Vector3(0, 0, -25)
+collision_mask = 5
+
+[node name="LaserBeam" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0.25, 0.95, -10.2)
+visible = false
+mesh = SubResource("CylinderMesh_Laser")
+
+[node name="MirrorShield" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, 0.95, -0.45)
+visible = false
+
+[node name="Frame" type="MeshInstance3D" parent="MirrorShield"]
+mesh = SubResource("BoxMesh_ShieldFrame")
+
+[node name="Glass" type="MeshInstance3D" parent="MirrorShield"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.01)
+mesh = SubResource("BoxMesh_ShieldGlass")

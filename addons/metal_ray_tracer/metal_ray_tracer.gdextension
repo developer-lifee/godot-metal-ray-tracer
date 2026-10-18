@@ -1,0 +1,12 @@
+[configuration]
+
+entry_symbol = "metal_ray_tracer_library_init"
+compatibility_minimum = "4.2"
+reloadable = true
+
+[libraries]
+
+macos.debug = "res://addons/metal_ray_tracer/bin/libmetal_ray_tracer.macos.dylib"
+macos.release = "res://addons/metal_ray_tracer/bin/libmetal_ray_tracer.macos.dylib"
+ios.debug = "res://addons/metal_ray_tracer/bin/libmetal_ray_tracer.macos.dylib"
+ios.release = "res://addons/metal_ray_tracer/bin/libmetal_ray_tracer.macos.dylib"
