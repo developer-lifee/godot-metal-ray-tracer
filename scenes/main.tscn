@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3]
+[gd_scene load_steps=28 format=3]
 
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_main"]
 [ext_resource type="PackedScene" path="res://scenes/player.tscn" id="2_player"]
@@ -7,6 +7,7 @@
 [ext_resource type="Shader" path="res://shaders/water.gdshader" id="5_water"]
 [ext_resource type="Shader" path="res://shaders/mirror.gdshader" id="6_mirror_shader"]
 [ext_resource type="Script" path="res://scripts/mirror.gd" id="7_mirror_script"]
+[ext_resource type="Script" path="res://addons/metal_ray_tracer/nodes/metal_ray_tracer_3d.gd" id="8_raytracer"]
 
 [sub_resource type="ProceduralSkyMaterial" id="SkyMat_1"]
 sky_top_color = Color(0.04, 0.08, 0.16, 1.0)
@@ -374,3 +375,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.0, 0.1, -2.0)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.0, 0.1, -2.0)
 
 [node name="HUD" parent="." instance=ExtResource("3_hud")]
+ 
+[node name="MetalRayTracer3D" type="Node3D" parent="."]
+script = ExtResource("8_raytracer")
+auto_find_camera = true
+create_fullscreen_overlay = true
+
