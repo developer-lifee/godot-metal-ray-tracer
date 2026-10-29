@@ -8,6 +8,8 @@ signal tool_flashlight_pressed
 signal tool_laser_pressed
 signal tool_mirror_pressed
 signal camera_mode_pressed
+signal warp_pressed
+signal slowmo_pressed
 
 @onready var joystick_base: Control = $JoystickBase
 @onready var joystick_knob: Control = $JoystickBase/Knob
@@ -15,7 +17,10 @@ signal camera_mode_pressed
 @onready var laser_btn: Button = $ActionButtons/LaserBtn
 @onready var light_btn: Button = $ActionButtons/LightBtn
 @onready var mirror_btn: Button = $ActionButtons/MirrorBtn
+@onready var warp_btn: Button = $ActionButtons/WarpBtn
+@onready var slowmo_btn: Button = $ActionButtons/SlowmoBtn
 @onready var cam_btn: Button = $CameraBtn
+@onready var slowmo_overlay: ColorRect = $SlowmoOverlay
 
 var is_dragging_joystick: bool = false
 var joystick_radius: float = 60.0
@@ -30,6 +35,16 @@ func _ready() -> void:
 	light_btn.pressed.connect(func(): emit_signal("tool_flashlight_pressed"))
 	mirror_btn.pressed.connect(func(): emit_signal("tool_mirror_pressed"))
 	cam_btn.pressed.connect(func(): emit_signal("camera_mode_pressed"))
+	
+	if warp_btn:
+		warp_btn.pressed.connect(func(): emit_signal("warp_pressed"))
+	if slowmo_btn:
+		slowmo_btn.pressed.connect(_on_slowmo_button_pressed)
+
+func _on_slowmo_button_pressed() -> void:
+	emit_signal("slowmo_pressed")
+	if slowmo_overlay:
+		slowmo_overlay.visible = not slowmo_overlay.visible
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventScreenTouch:

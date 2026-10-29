@@ -24,8 +24,8 @@ ambient_light_source = 3
 ambient_light_color = Color(0.25, 0.32, 0.45, 1.0)
 reflected_light_source = 2
 tonemap_mode = 2
-ssr_enabled = true
-sdfgi_enabled = true
+ssr_enabled = false
+sdfgi_enabled = false
 sdfgi_use_occlusion = true
 glow_enabled = true
 glow_bloom = 0.35
@@ -117,6 +117,19 @@ material = SubResource("Mat_Puddle")
 top_radius = 1.2
 bottom_radius = 1.2
 height = 0.02
+
+[sub_resource type="StandardMaterial3D" id="Mat_Rock"]
+albedo_color = Color(0.28, 0.32, 0.35, 1.0)
+roughness = 0.88
+metallic = 0.05
+
+[sub_resource type="SphereMesh" id="SphereMesh_Rock"]
+material = SubResource("Mat_Rock")
+radius = 0.45
+height = 0.55
+
+[sub_resource type="SphereShape3D" id="SphereShape_Rock"]
+radius = 0.45
 
 [node name="Main" type="Node3D"]
 script = ExtResource("1_main")
@@ -376,8 +389,131 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.0, 0.1, -2.0)
 
 [node name="HUD" parent="." instance=ExtResource("3_hud")]
  
+[node name="RiverRocks" type="Node3D" parent="."]
+
+[node name="Rock0" type="StaticBody3D" parent="RiverRocks"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.8, 0.2, -1.8)
+[node name="Mesh" type="MeshInstance3D" parent="RiverRocks/Rock0"]
+mesh = SubResource("SphereMesh_Rock")
+[node name="Collision" type="CollisionShape3D" parent="RiverRocks/Rock0"]
+shape = SubResource("SphereShape_Rock")
+
+[node name="Rock1" type="StaticBody3D" parent="RiverRocks"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.2, 0.2, 0.5)
+[node name="Mesh" type="MeshInstance3D" parent="RiverRocks/Rock1"]
+mesh = SubResource("SphereMesh_Rock")
+[node name="Collision" type="CollisionShape3D" parent="RiverRocks/Rock1"]
+shape = SubResource("SphereShape_Rock")
+
+[node name="Rock2" type="StaticBody3D" parent="RiverRocks"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5, 0.2, 2.2)
+[node name="Mesh" type="MeshInstance3D" parent="RiverRocks/Rock2"]
+mesh = SubResource("SphereMesh_Rock")
+[node name="Collision" type="CollisionShape3D" parent="RiverRocks/Rock2"]
+shape = SubResource("SphereShape_Rock")
+
+[node name="Rock3" type="StaticBody3D" parent="RiverRocks"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.8, 0.2, -2.0)
+[node name="Mesh" type="MeshInstance3D" parent="RiverRocks/Rock3"]
+mesh = SubResource("SphereMesh_Rock")
+[node name="Collision" type="CollisionShape3D" parent="RiverRocks/Rock3"]
+shape = SubResource("SphereShape_Rock")
+
+[node name="Rock4" type="StaticBody3D" parent="RiverRocks"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.2, 0.2, 0.2)
+[node name="Mesh" type="MeshInstance3D" parent="RiverRocks/Rock4"]
+mesh = SubResource("SphereMesh_Rock")
+[node name="Collision" type="CollisionShape3D" parent="RiverRocks/Rock4"]
+shape = SubResource("SphereShape_Rock")
+
+[node name="Rock5" type="StaticBody3D" parent="RiverRocks"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.6, 0.2, 2.5)
+[node name="Mesh" type="MeshInstance3D" parent="RiverRocks/Rock5"]
+mesh = SubResource("SphereMesh_Rock")
+[node name="Collision" type="CollisionShape3D" parent="RiverRocks/Rock5"]
+shape = SubResource("SphereShape_Rock")
+
+[node name="Rock6" type="StaticBody3D" parent="RiverRocks"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 0.2, 3.8)
+[node name="Mesh" type="MeshInstance3D" parent="RiverRocks/Rock6"]
+mesh = SubResource("SphereMesh_Rock")
+[node name="Collision" type="CollisionShape3D" parent="RiverRocks/Rock6"]
+shape = SubResource("SphereShape_Rock")
+
+[node name="Rock7" type="StaticBody3D" parent="RiverRocks"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.2, 0.2, 4.0)
+[node name="Mesh" type="MeshInstance3D" parent="RiverRocks/Rock7"]
+mesh = SubResource("SphereMesh_Rock")
+[node name="Collision" type="CollisionShape3D" parent="RiverRocks/Rock7"]
+shape = SubResource("SphereShape_Rock")
+
+[node name="Rock8" type="StaticBody3D" parent="RiverRocks"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.0, 0.2, -3.5)
+[node name="Mesh" type="MeshInstance3D" parent="RiverRocks/Rock8"]
+mesh = SubResource("SphereMesh_Rock")
+[node name="Collision" type="CollisionShape3D" parent="RiverRocks/Rock8"]
+shape = SubResource("SphereShape_Rock")
+
+[node name="Rock9" type="StaticBody3D" parent="RiverRocks"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.2, 0.2, -3.8)
+[node name="Mesh" type="MeshInstance3D" parent="RiverRocks/Rock9"]
+mesh = SubResource("SphereMesh_Rock")
+[node name="Collision" type="CollisionShape3D" parent="RiverRocks/Rock9"]
+shape = SubResource("SphereShape_Rock")
+
+[node name="Rock10" type="StaticBody3D" parent="RiverRocks"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.8, 0.2, 3.8)
+[node name="Mesh" type="MeshInstance3D" parent="RiverRocks/Rock10"]
+mesh = SubResource("SphereMesh_Rock")
+[node name="Collision" type="CollisionShape3D" parent="RiverRocks/Rock10"]
+shape = SubResource("SphereShape_Rock")
+
+[node name="Rock11" type="StaticBody3D" parent="RiverRocks"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.9, 0.2, 3.9)
+[node name="Mesh" type="MeshInstance3D" parent="RiverRocks/Rock11"]
+mesh = SubResource("SphereMesh_Rock")
+[node name="Collision" type="CollisionShape3D" parent="RiverRocks/Rock11"]
+shape = SubResource("SphereShape_Rock")
+
+[node name="Rock12" type="StaticBody3D" parent="RiverRocks"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0, 0.2, 4.5)
+[node name="Mesh" type="MeshInstance3D" parent="RiverRocks/Rock12"]
+mesh = SubResource("SphereMesh_Rock")
+[node name="Collision" type="CollisionShape3D" parent="RiverRocks/Rock12"]
+shape = SubResource("SphereShape_Rock")
+
+[node name="Rock13" type="StaticBody3D" parent="RiverRocks"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.5, 0.2, 0.0)
+[node name="Mesh" type="MeshInstance3D" parent="RiverRocks/Rock13"]
+mesh = SubResource("SphereMesh_Rock")
+[node name="Collision" type="CollisionShape3D" parent="RiverRocks/Rock13"]
+shape = SubResource("SphereShape_Rock")
+
+[node name="Rock14" type="StaticBody3D" parent="RiverRocks"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 0.2, 0.0)
+[node name="Mesh" type="MeshInstance3D" parent="RiverRocks/Rock14"]
+mesh = SubResource("SphereMesh_Rock")
+[node name="Collision" type="CollisionShape3D" parent="RiverRocks/Rock14"]
+shape = SubResource("SphereShape_Rock")
+
+[node name="SubterraneanRealm" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -8.0, 0)
+
+[node name="CaveFloor" type="CSGBox3D" parent="SubterraneanRealm"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.2, 0)
+use_collision = true
+size = Vector3(16, 0.4, 16)
+material = SubResource("Mat_PoolTile")
+
+[node name="CaveNeonLight" type="OmniLight3D" parent="SubterraneanRealm"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0)
+light_color = Color(0.1, 0.85, 1.0, 1)
+light_energy = 4.5
+omni_range = 15.0
+
 [node name="MetalRayTracer3D" type="Node3D" parent="."]
 script = ExtResource("8_raytracer")
 auto_find_camera = true
 create_fullscreen_overlay = true
+
 
