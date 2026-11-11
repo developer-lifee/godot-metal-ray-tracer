@@ -7,6 +7,7 @@ signal jump_pressed
 signal tool_flashlight_pressed
 signal tool_laser_pressed
 signal tool_mirror_pressed
+signal tool_air_pump_pressed
 signal camera_mode_pressed
 signal warp_pressed
 signal slowmo_pressed

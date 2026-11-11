@@ -21,9 +21,25 @@ var warp_cooldown_timer: float = 0.0
 var slowmo_active: bool = false
 var splash_sound_timer: float = 0.0
 
-# Tools
-enum ToolType { NONE, FLASHLIGHT, LASER, MIRROR }
+# Tools y Sistemas Térmicos / Batería
+enum ToolType { NONE, FLASHLIGHT, LASER, MIRROR, AIR_PUMP }
 var held_tool: ToolType = ToolType.NONE
+
+# Batería del Láser (0% a 100%)
+var laser_battery: float = 1.0
+var laser_drain_rate: float = 0.22 # Se agota en ~4.5s continuos
+var laser_recharge_rate: float = 0.35 # Se recarga en ~2.8s
+
+# Calor y Sobrecalentamiento del Escudo Espejo
+var mirror_heat: float = 0.0
+var mirror_heat_rate: float = 0.20 # Se sobrecalienta en 5s continuos
+var mirror_cool_rate: float = 0.16 # Se enfría en ~6s
+var mirror_overheated: bool = false
+
+# Bomba Neumática de Aire para revivir compañeros slime
+var teammate_revive_pumps: int = 0
+var teammate_revive_timer: float = 0.0
+const REVIVE_MIN_TIME: float = 5.0
 
 @onready var camera_pivot: Node3D = $CameraPivot
 @onready var camera: Camera3D = $CameraPivot/SpringArm3D/Camera3D
@@ -165,9 +181,37 @@ func _physics_process(dt: float) -> void:
 
 	move_and_slide()
 
-	# 6. Actualización del haz láser
+	# 6. Gestión Térmica y Baterías de Herramientas
 	if held_tool == ToolType.LASER:
-		update_laser()
+		laser_battery = max(0.0, laser_battery - laser_drain_rate * dt)
+		if laser_battery <= 0.0:
+			# Batería agotada: apagar automáticamente el láser
+			toggle_laser()
+			_play_sfx("laser_hit")
+		else:
+			update_laser()
+	else:
+		# Recarga pasiva de batería cuando no está disparando
+		if laser_battery < 1.0:
+			laser_battery = min(1.0, laser_battery + laser_recharge_rate * dt)
+
+	if held_tool == ToolType.MIRROR:
+		mirror_heat = min(1.0, mirror_heat + mirror_heat_rate * dt)
+		if mirror_heat >= 1.0 and not mirror_overheated:
+			# Sobrecalentamiento térmico del espejo
+			mirror_overheated = true
+			toggle_mirror()
+			_play_sfx("slowmo_off")
+	else:
+		# Enfriamiento pasivo del espejo
+		if mirror_heat > 0.0:
+			mirror_heat = max(0.0, mirror_heat - mirror_cool_rate * dt)
+			if mirror_heat <= 0.0:
+				mirror_overheated = false
+
+	# Temporizador de reanimación de compañeros caídos
+	if teammate_revive_pumps > 0:
+		teammate_revive_timer += dt
 
 	# 7. Check de portal subterráneo si se sumerge a fondo abisal
 	if global_position.y <= -3.8:
@@ -298,10 +342,36 @@ func toggle_mirror() -> void:
 		held_tool = ToolType.NONE
 		if mirror_shield: mirror_shield.visible = false
 	else:
+		if mirror_overheated:
+			_play_sfx("slowmo_off")
+			return # No se puede activar mientras esté sobrecalentado
 		held_tool = ToolType.MIRROR
 		if mirror_shield: mirror_shield.visible = true
 		if laser_beam: laser_beam.visible = false
 		if flashlight: flashlight.visible = false
+
+func toggle_air_pump() -> void:
+	if held_tool == ToolType.AIR_PUMP:
+		held_tool = ToolType.NONE
+	else:
+		held_tool = ToolType.AIR_PUMP
+		if mirror_shield: mirror_shield.visible = false
+		if laser_beam: laser_beam.visible = false
+		if flashlight: flashlight.visible = false
+		_play_sfx("cover")
+
+func pump_air_for_teammate() -> bool:
+	if held_tool != ToolType.AIR_PUMP:
+		return false
+	teammate_revive_pumps += 1
+	_play_sfx("splash")
+	# Se requieren mínimo 5 segundos de reanimación y 5 bombeos
+	if teammate_revive_pumps >= 5 and teammate_revive_timer >= REVIVE_MIN_TIME:
+		teammate_revive_pumps = 0
+		teammate_revive_timer = 0.0
+		_play_sfx("warp")
+		return true # Compañero revivido con éxito
+	return false
 
 func update_laser() -> void:
 	if not laser_raycast: return
@@ -334,7 +404,8 @@ func rotate_camera(relative: Vector2) -> void:
 		spring_arm.rotation.x = clamp(spring_arm.rotation.x, -PI/2.5, PI/4)
 
 func _play_sfx(kind: String) -> void:
-	var sfx = SoundFX.get_instance()
+	var sound_script = preload("res://scripts/sound_effects.gd")
+	var sfx = sound_script.get_instance()
 	if not sfx: return
 	match kind:
 		"laser": sfx.play_laser()

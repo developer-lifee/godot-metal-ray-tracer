@@ -6,11 +6,12 @@ extends Node3D
 @onready var trampoline_area: Area3D = get_node_or_null("Trampoline/SpringArea")
 @onready var slide_area: Area3D = get_node_or_null("SlideRamp/SlideArea")
 
-var sound_fx: SoundFX
+const SoundFXScript = preload("res://scripts/sound_effects.gd")
+var sound_fx: Node
 
 func _ready() -> void:
 	# Inicializar SoundFX si no está presente
-	sound_fx = SoundFX.new()
+	sound_fx = SoundFXScript.new()
 	sound_fx.name = "SoundFX"
 	add_child(sound_fx)
 
@@ -25,6 +26,8 @@ func _ready() -> void:
 			hud.connect("tool_flashlight_pressed", func(): player.toggle_flashlight())
 		if hud.has_signal("tool_mirror_pressed"):
 			hud.connect("tool_mirror_pressed", func(): player.toggle_mirror())
+		if hud.has_signal("tool_air_pump_pressed"):
+			hud.connect("tool_air_pump_pressed", func(): player.toggle_air_pump())
 		if hud.has_signal("camera_mode_pressed"):
 			hud.connect("camera_mode_pressed", func(): player.toggle_camera_mode())
 		if hud.has_signal("warp_pressed"):
@@ -89,13 +92,17 @@ func _unhandled_input(event: InputEvent) -> void:
 			player.toggle_laser()
 		elif event.keycode == KEY_3:
 			player.toggle_mirror()
+		elif event.keycode == KEY_4:
+			player.toggle_air_pump()
+		elif event.keycode == KEY_5:
+			player.pump_air_for_teammate()
 		elif event.keycode == KEY_C:
 			player.toggle_camera_mode()
 
 func _on_water_entered(body: Node3D) -> void:
 	if body == player:
 		player.is_in_water = true
-		SoundFX.get_instance().play_splash(-4.0)
+		SoundFXScript.get_instance().play_splash(-4.0)
 
 func _on_water_exited(body: Node3D) -> void:
 	if body == player:
