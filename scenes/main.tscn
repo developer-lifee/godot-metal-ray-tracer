@@ -610,6 +610,90 @@ light_color = Color(0.1, 0.90, 0.98, 1)
 light_energy = 3.5
 omni_range = 10.0
 
+[node name="AqueductFloor" type="CSGBox3D" parent="SubterraneanRealm"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.2, 26.9)
+use_collision = true
+size = Vector3(9.5, 0.4, 18.2)
+material = SubResource("Mat_PoolTile")
+
+[node name="AqueductWallW" type="CSGBox3D" parent="SubterraneanRealm"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.0, 2.5, 26.9)
+use_collision = true
+size = Vector3(0.4, 5.0, 18.2)
+material = SubResource("Mat_SunkenObelisk")
+
+[node name="AqueductWallE" type="CSGBox3D" parent="SubterraneanRealm"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.0, 2.5, 26.9)
+use_collision = true
+size = Vector3(0.4, 5.0, 18.2)
+material = SubResource("Mat_SunkenObelisk")
+
+[node name="SanctuaryFloor" type="CSGBox3D" parent="SubterraneanRealm"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.2, 52.0)
+use_collision = true
+size = Vector3(44.0, 0.4, 32.0)
+material = SubResource("Mat_PoolTile")
+
+[node name="SanctuaryPillar1" type="CSGBox3D" parent="SubterraneanRealm"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.0, 2.5, 44.0)
+use_collision = true
+size = Vector3(1.2, 5.4, 1.2)
+material = SubResource("Mat_SunkenObelisk")
+
+[node name="SanctuaryPillar2" type="CSGBox3D" parent="SubterraneanRealm"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.0, 2.5, 44.0)
+use_collision = true
+size = Vector3(1.2, 5.4, 1.2)
+material = SubResource("Mat_SunkenObelisk")
+
+[node name="SanctuaryPillar3" type="CSGBox3D" parent="SubterraneanRealm"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.0, 2.5, 60.0)
+use_collision = true
+size = Vector3(1.2, 5.4, 1.2)
+material = SubResource("Mat_SunkenObelisk")
+
+[node name="SanctuaryPillar4" type="CSGBox3D" parent="SubterraneanRealm"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.0, 2.5, 60.0)
+use_collision = true
+size = Vector3(1.2, 5.4, 1.2)
+material = SubResource("Mat_SunkenObelisk")
+
+[node name="ChestAqueduct" type="CSGBox3D" parent="SubterraneanRealm"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.38, 27.0)
+use_collision = true
+size = Vector3(1.2, 0.75, 0.85)
+material = SubResource("Mat_TreasureGold")
+
+[node name="ChestWestVault" type="CSGBox3D" parent="SubterraneanRealm"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.5, 0.38, 50.0)
+use_collision = true
+size = Vector3(1.2, 0.75, 0.85)
+material = SubResource("Mat_TreasureGold")
+
+[node name="ChestEastVault" type="CSGBox3D" parent="SubterraneanRealm"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.5, 0.38, 50.0)
+use_collision = true
+size = Vector3(1.2, 0.75, 0.85)
+material = SubResource("Mat_TreasureGold")
+
+[node name="ChestSupreme" type="CSGBox3D" parent="SubterraneanRealm"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.70, 56.0)
+use_collision = true
+size = Vector3(1.6, 0.95, 1.1)
+material = SubResource("Mat_TreasureGold")
+
+[node name="SanctuaryLight" type="OmniLight3D" parent="SubterraneanRealm"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.5, 52.0)
+light_color = Color(0.2, 0.95, 1.0, 1)
+light_energy = 5.5
+omni_range = 30.0
+
+[node name="GeyserElevator" type="CSGBox3D" parent="SubterraneanRealm"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15, 64.0)
+use_collision = true
+size = Vector3(3.2, 0.3, 3.2)
+material = SubResource("Mat_GeneratorMetal")
+
 [node name="MetalRayTracer3D" type="Node3D" parent="."]
 script = ExtResource("8_raytracer")
 auto_find_camera = true

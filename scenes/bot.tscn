@@ -7,14 +7,17 @@ radius = 0.38
 height = 1.75
 
 [sub_resource type="StandardMaterial3D" id="Mat_Bot"]
-albedo_color = Color(0.15, 0.75, 0.42, 1.0)
-roughness = 0.4
-metallic = 0.3
+albedo_color = Color(0.02, 0.02, 0.03, 1.0)
+roughness = 0.85
+metallic = 0.2
 
 [sub_resource type="StandardMaterial3D" id="Mat_Head"]
-albedo_color = Color(0.92, 0.82, 0.20, 1.0)
-roughness = 0.2
-metallic = 0.8
+albedo_color = Color(0.04, 0.04, 0.06, 1.0)
+roughness = 0.6
+metallic = 0.4
+emission_enabled = true
+emission = Color(0.35, 0.05, 0.65, 1.0)
+emission_energy_multiplier = 1.5
 
 [sub_resource type="StandardMaterial3D" id="Mat_RedBeam"]
 albedo_color = Color(1.0, 0.15, 0.15, 1.0)

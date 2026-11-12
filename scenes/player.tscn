@@ -7,9 +7,12 @@ radius = 0.38
 height = 1.75
 
 [sub_resource type="StandardMaterial3D" id="Mat_Torso"]
-albedo_color = Color(0.85, 0.22, 0.18, 1.0)
-roughness = 0.35
-metallic = 0.2
+albedo_color = Color(0.20, 0.92, 0.28, 1.0)
+roughness = 0.15
+metallic = 0.1
+emission_enabled = true
+emission = Color(0.18, 0.88, 0.24, 1.0)
+emission_energy_multiplier = 1.2
 
 [sub_resource type="StandardMaterial3D" id="Mat_Visor"]
 albedo_color = Color(0.1, 0.95, 0.98, 1.0)
