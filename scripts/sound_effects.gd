@@ -93,6 +93,24 @@ func play_cover() -> void:
 	p.pitch_scale = 1.0
 	p.play()
 
+## 8. Disturbio Hidrodinámico Suave (Contacto o aterrizaje subacuático amortiguado)
+func play_water_disturbance(volume_db: float = -8.0) -> void:
+	var stream = _generate_water_splash(0.18, 0.32)
+	var p = _get_free_player()
+	p.stream = stream
+	p.volume_db = volume_db
+	p.pitch_scale = randf_range(0.70, 0.90) # Frecuencia más grave subacuática
+	p.play()
+
+## 9. Aterrizaje en Tierra Firme (Impacto seco con suelo)
+func play_landing(volume_db: float = -7.0) -> void:
+	var stream = _generate_noise_burst(0.10, 0.40, 220.0)
+	var p = _get_free_player()
+	p.stream = stream
+	p.volume_db = volume_db
+	p.pitch_scale = randf_range(0.95, 1.05)
+	p.play()
+
 # -------------------------------------------------------------
 # Generadores de forma de onda PCM en memoria (AudioStreamWAV)
 # -------------------------------------------------------------

@@ -20,6 +20,8 @@ var is_sliding: bool = false
 var warp_cooldown_timer: float = 0.0
 var slowmo_active: bool = false
 var splash_sound_timer: float = 0.0
+var was_on_floor_prev: bool = true
+var prev_v_speed: float = 0.0
 
 # Tools y Sistemas Térmicos / Batería
 enum ToolType { NONE, FLASHLIGHT, LASER, MIRROR, AIR_PUMP }
@@ -89,7 +91,8 @@ func _physics_process(dt: float) -> void:
 	# Verificar profundidad real de agua:
 	# En la piscina normal (Y > -2.0) el agua no pasa de la cintura, camina erguido.
 	# Solo a profundidad abisal (Y <= -2.5) entra en postura de natación flotante 3D.
-	if is_in_water:
+	if is_in_water or global_position.y < -0.30:
+		is_in_water = true
 		is_deep_submerged = (global_position.y <= -2.5)
 	else:
 		is_deep_submerged = false
@@ -179,7 +182,17 @@ func _physics_process(dt: float) -> void:
 			mesh_root.rotation.x = lerp_angle(mesh_root.rotation.x, 0.0, 10.0 * dt)
 			mesh_root.position.y = lerp(mesh_root.position.y, 0.0, 10.0 * dt)
 
+	prev_v_speed = velocity.y
 	move_and_slide()
+
+	# Detección de contacto con el suelo o fondo
+	if is_on_floor() and not was_on_floor_prev:
+		if prev_v_speed < -1.8:
+			if is_in_water or is_deep_submerged or global_position.y < -0.30:
+				_play_sfx("water_disturbance")
+			else:
+				_play_sfx("landing")
+	was_on_floor_prev = is_on_floor()
 
 	# 6. Gestión Térmica y Baterías de Herramientas
 	if held_tool == ToolType.LASER:
@@ -223,13 +236,16 @@ func _physics_process(dt: float) -> void:
 
 ## Detección táctica de proximidad a las rocas para agacharse/cubrirse
 func _check_rock_cover() -> void:
-	if is_in_water:
+	if is_in_water or is_deep_submerged or global_position.y < -0.30:
 		is_crouching = false
 		return
 
 	var near_rock = false
 	var player_xz = Vector2(global_position.x, global_position.z)
 	for rock_pos in RT_RIVER_ROCKS:
+		# Comprobar límite de cota Y: si el jugador está por debajo o muy por encima de la roca, no cubrirse
+		if abs(global_position.y - rock_pos.y) > 1.2:
+			continue
 		var rock_xz = Vector2(rock_pos.x, rock_pos.z)
 		if player_xz.distance_to(rock_xz) < 1.15:
 			near_rock = true
@@ -416,3 +432,5 @@ func _play_sfx(kind: String) -> void:
 		"slowmo_on": sfx.play_slowmo(true)
 		"slowmo_off": sfx.play_slowmo(false)
 		"cover": sfx.play_cover()
+		"water_disturbance": sfx.play_water_disturbance()
+		"landing": sfx.play_landing()
