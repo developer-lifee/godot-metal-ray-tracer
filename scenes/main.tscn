@@ -250,6 +250,12 @@ use_collision = true
 size = Vector3(0.12, 0.68, 5.4)
 material = SubResource("Mat_PoolTile")
 
+[node name="PoolSunkenChest" type="CSGBox3D" parent="Room"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2, -0.45, -1.5)
+use_collision = true
+size = Vector3(0.9, 0.5, 0.6)
+material = SubResource("Mat_TreasureGold")
+
 [node name="CopingN" type="CSGBox3D" parent="Room"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 0.05, -4.38)
 size = Vector3(8.1, 0.14, 0.34)
