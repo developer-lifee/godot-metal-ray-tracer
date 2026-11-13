@@ -694,6 +694,12 @@ use_collision = true
 size = Vector3(3.2, 0.3, 3.2)
 material = SubResource("Mat_GeneratorMetal")
 
+[node name="SubterraneanSouthGateDoor" type="CSGBox3D" parent="SubterraneanRealm"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 17.0)
+use_collision = true
+size = Vector3(10.5, 5.5, 0.5)
+material = SubResource("Mat_Wall")
+
 [node name="MetalRayTracer3D" type="Node3D" parent="."]
 script = ExtResource("8_raytracer")
 auto_find_camera = true
